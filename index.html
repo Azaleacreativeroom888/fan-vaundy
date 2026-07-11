@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUNNY SIDE UP — Vaundy 非公式ファンサイト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6E4;
+    --paper:#FFFCF4;
+    --sun:#FFB627;
+    --sun-deep:#FF8A1E;
+    --ember:#E8531F;
+    --sky:#6FC6E0;
+    --sky-deep:#2E8FA8;
+    --ink:#2B2118;
+    --ink-soft:#6B5C4C;
+    --line:#2B211822;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Noto Sans JP', sans-serif;
+    line-height:1.9;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.brand{
+    font-family:'Zen Maru Gothic', sans-serif;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  /* ---------- decorative dot texture ---------- */
+  .halftone{
+    position:absolute;
+    inset:0;
+    background-image:radial-gradient(var(--ink) 1px, transparent 1.4px);
+    background-size:14px 14px;
+    opacity:0.05;
+    pointer-events:none;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--cream);
+    border-bottom:2.5px solid var(--ink);
+  }
+  .nav-wrap{
+    max-width:1100px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-weight:900; font-size:1.3rem; letter-spacing:0.03em;
+  }
+  .brand-mark{
+    width:32px; height:32px; border-radius:50%;
+    background:conic-gradient(from 180deg, var(--sun), var(--ember), var(--sky), var(--sun));
+    box-shadow:0 0 0 2.5px var(--ink);
+    flex-shrink:0;
+  }
+  nav ul{
+    list-style:none; display:flex; gap:6px;
+  }
+  nav a{
+    display:inline-block;
+    padding:8px 16px;
+    font-weight:700;
+    font-size:0.92rem;
+    border-radius:999px;
+    transition:background 0.15s, color 0.15s, transform 0.15s;
+  }
+  nav a:hover, nav a:focus-visible{
+    background:var(--ink);
+    color:var(--paper);
+    transform:translateY(-1px);
+  }
+  nav a.current{
+    background:var(--sun);
+    box-shadow:0 0 0 2px var(--ink);
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:96px 24px 120px;
+    text-align:center;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 38%, var(--sun) 0%, var(--sun) 30%, var(--sun-deep) 55%, transparent 72%),
+      var(--cream);
+  }
+  .hero .halftone{opacity:0.09; mix-blend-mode:multiply;}
+  .sunburst{
+    position:absolute;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-46%);
+    z-index:0;
+    animation:spin 90s linear infinite;
+  }
+  @keyframes spin{ to{ transform:translate(-50%,-46%) rotate(360deg); } }
+  .hero-inner{ position:relative; z-index:2; }
+  .eyebrow{
+    display:inline-block;
+    font-family:'Zen Maru Gothic', sans-serif;
+    font-weight:700;
+    font-size:0.85rem;
+    letter-spacing:0.28em;
+    background:var(--paper);
+    border:2.5px solid var(--ink);
+    border-radius:999px;
+    padding:6px 18px;
+    margin-bottom:28px;
+  }
+  .hero h1{
+    font-size:clamp(3.2rem, 11vw, 7.2rem);
+    font-weight:900;
+    letter-spacing:0.02em;
+    color:var(--paper);
+    -webkit-text-stroke:3px var(--ink);
+    text-shadow:5px 5px 0 var(--ink);
+    line-height:1;
+  }
+  .hero .sub{
+    margin-top:26px;
+    font-size:clamp(1rem, 2.4vw, 1.3rem);
+    font-weight:700;
+    color:var(--ink);
+    background:var(--paper);
+    display:inline-block;
+    padding:10px 22px;
+    border-radius:12px;
+    border:2.5px solid var(--ink);
+    transform:rotate(-1.5deg);
+  }
+  .hero .desc{
+    max-width:560px;
+    margin:34px auto 0;
+    color:var(--ink-soft);
+    font-size:0.98rem;
+  }
+  .scroll-cue{
+    margin-top:56px;
+    font-size:0.8rem;
+    letter-spacing:0.2em;
+    font-weight:700;
+    color:var(--ink-soft);
+  }
+  .scroll-cue::after{
+    content:"";
+    display:block;
+    width:2px; height:34px;
+    background:var(--ink-soft);
+    margin:10px auto 0;
+    animation:drop 1.6s ease-in-out infinite;
+  }
+  @keyframes drop{ 0%,100%{opacity:0.15;} 50%{opacity:0.9;} }
+
+  /* ---------- section shell ---------- */
+  section{ position:relative; padding:88px 24px; }
+  .inner{ max-width:1000px; margin:0 auto; position:relative; z-index:2; }
+  .section-head{ margin-bottom:48px; }
+  .section-head .tag{
+    font-weight:700; font-size:0.8rem; letter-spacing:0.24em;
+    color:var(--sky-deep);
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-head .tag::before{
+    content:""; width:22px; height:3px; background:var(--sky); border-radius:2px;
+  }
+  .section-head h2{
+    margin-top:12px;
+    font-size:clamp(1.7rem, 4vw, 2.4rem);
+    font-weight:900;
+  }
+
+  /* ---------- about teaser ---------- */
+  .about-band{ background:var(--paper); border-top:2.5px solid var(--ink); border-bottom:2.5px solid var(--ink); }
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+  }
+  .about-grid p{ margin-bottom:16px; color:var(--ink-soft); }
+  .about-grid p strong{ color:var(--ink); }
+  .about-visual{
+    position:relative;
+    aspect-ratio:1/1;
+    border-radius:24px;
+    background:
+      repeating-linear-gradient(135deg, var(--sky) 0 14px, var(--sky-deep) 14px 28px);
+    border:3px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .about-visual .disc{
+    width:62%; aspect-ratio:1/1; border-radius:50%;
+    background:conic-gradient(var(--ember) 0deg 90deg, var(--sun) 90deg 180deg, var(--paper) 180deg 270deg, var(--sky) 270deg 360deg);
+    border:3px solid var(--ink);
+    position:relative;
+  }
+  .about-visual .disc::after{
+    content:"";
+    position:absolute; inset:38%;
+    background:var(--cream);
+    border-radius:50%;
+    border:3px solid var(--ink);
+  }
+  .more-link{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-top:8px;
+    font-weight:700;
+    padding:10px 20px;
+    border:2.5px solid var(--ink);
+    border-radius:999px;
+    background:var(--sun);
+    transition:transform 0.15s;
+  }
+  .more-link:hover{ transform:translate(-2px,-2px); box-shadow:4px 4px 0 var(--ink); }
+
+  /* ---------- highlight tracks ---------- */
+  .tracks-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
+    gap:22px;
+  }
+  .track-card{
+    background:var(--paper);
+    border:2.5px solid var(--ink);
+    border-radius:16px;
+    padding:22px;
+    position:relative;
+    transition:transform 0.15s;
+  }
+  .track-card:nth-child(1){ transform:rotate(-1.2deg); }
+  .track-card:nth-child(2){ transform:rotate(0.8deg); }
+  .track-card:nth-child(3){ transform:rotate(-0.6deg); }
+  .track-card:nth-child(4){ transform:rotate(1.1deg); }
+  .track-card:hover{ transform:translateY(-6px) rotate(0deg); box-shadow:6px 6px 0 var(--ink); }
+  .track-num{
+    font-family:'Zen Maru Gothic', sans-serif;
+    font-weight:900;
+    font-size:0.75rem;
+    color:var(--sky-deep);
+    letter-spacing:0.1em;
+  }
+  .track-card h3{ margin-top:8px; font-size:1.15rem; }
+  .track-card p{ margin-top:10px; font-size:0.86rem; color:var(--ink-soft); }
+  .swatch{
+    width:100%; height:6px; border-radius:4px; margin-top:16px;
+  }
+
+  /* ---------- pages preview (blog / gallery / about links) ---------- */
+  .pages-band{ background:var(--ink); color:var(--cream); }
+  .pages-band .section-head .tag{ color:var(--sky); }
+  .pages-band .section-head .tag::before{ background:var(--sun); }
+  .pages-band h2{ color:var(--paper); }
+  .pages-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:20px;
+  }
+  .page-card{
+    background:#3a2f22;
+    border:2.5px solid var(--cream);
+    border-radius:16px;
+    padding:26px 22px;
+    transition:transform 0.15s, background 0.15s;
+  }
+  .page-card:hover{ transform:translateY(-4px); background:#4a3c2b; }
+  .page-card .icon{
+    width:40px; height:40px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:1.1rem;
+    margin-bottom:14px;
+    color:var(--ink);
+  }
+  .page-card h3{ font-size:1.05rem; margin-bottom:6px; }
+  .page-card p{ font-size:0.84rem; color:#cfc3af; }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding:56px 24px 40px;
+    text-align:center;
+    border-top:2.5px solid var(--ink);
+    background:var(--paper);
+  }
+  footer .brand{ justify-content:center; margin-bottom:14px; }
+  footer .disclaimer{
+    max-width:480px; margin:0 auto;
+    font-size:0.8rem; color:var(--ink-soft);
+    line-height:1.8;
+  }
+  footer .sns{
+    margin-top:22px;
+    display:flex; justify-content:center; gap:14px;
+  }
+  footer .sns a{
+    width:38px; height:38px; border-radius:50%;
+    border:2.5px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.8rem; font-weight:700;
+    transition:background 0.15s, color 0.15s;
+  }
+  footer .sns a:hover{ background:var(--sky); }
+
+  @media (max-width:760px){
+    .about-grid{ grid-template-columns:1fr; }
+    .about-visual{ max-width:280px; margin:0 auto; }
+    nav ul{ gap:2px; }
+    nav a{ padding:7px 11px; font-size:0.82rem; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .sunburst{ animation:none; }
+    .scroll-cue::after{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      SUNNY SIDE UP
+    </div>
+    <nav aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html" class="current">HOME</a></li>
+        <li><a href="blog.html">BLOG</a></li>
+        <li><a href="gallery.html">GALLERY</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="halftone" aria-hidden="true"></div>
+    <svg class="sunburst" viewBox="0 0 200 200" aria-hidden="true">
+      <g fill="none" stroke="#2B2118" stroke-width="1" opacity="0.12">
+        <circle cx="100" cy="100" r="96"/>
+        <circle cx="100" cy="100" r="80"/>
+        <circle cx="100" cy="100" r="64"/>
+      </g>
+    </svg>
+    <div class="hero-inner">
+      <span class="eyebrow">UNOFFICIAL FAN SITE</span>
+      <h1>VAUNDY</h1>
+      <div class="sub">音楽もアートも、まるごと好き。</div>
+      <p class="desc">
+        ジャンルを軽やかに越えていく声と、独自の世界観を持つビジュアル。
+        このサイトは、そんなVaundyの魅力を勝手気ままに記録していく非公式のファンページです。
+      </p>
+      <div class="scroll-cue">SCROLL</div>
+    </div>
+  </section>
+
+  <!-- ABOUT TEASER -->
+  <section class="about-band">
+    <div class="halftone" aria-hidden="true"></div>
+    <div class="inner about-grid">
+      <div>
+        <div class="section-head">
+          <span class="tag">ABOUT VAUNDY</span>
+          <h2>作詞、作曲、編曲、<br>そしてアートワークまで。</h2>
+        </div>
+        <p>
+          <strong>Vaundy</strong>は、楽曲制作だけでなくジャケットアートやMVのディレクションまで
+          手がけるマルチクリエイター。曲ごとに表情を変える作風の幅広さが最大の魅力です。
+        </p>
+        <p>
+          ポップな高揚感とどこかクールな距離感が同居するサウンド。
+          このサイトでは、そんな彼の音楽と創作活動について、ファン目線でまとめていきます。
+        </p>
+        <a class="more-link" href="about.html">プロフィールをもっと見る →</a>
+      </div>
+      <div class="about-visual" aria-hidden="true">
+        <div class="disc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHT -->
+  <section>
+    <div class="halftone" aria-hidden="true"></div>
+    <div class="inner">
+      <div class="section-head">
+        <span class="tag">FAN'S PICK</span>
+        <h2>個人的に推したい魅力ポイント</h2>
+      </div>
+      <div class="tracks-grid">
+        <div class="track-card">
+          <span class="track-num">POINT 01</span>
+          <h3>声の引き出しの多さ</h3>
+          <p>力強いロックボーカルから囁くようなファルセットまで、曲ごとにまったく別人のような表現力。</p>
+          <div class="swatch" style="background:var(--sun);"></div>
+        </div>
+        <div class="track-card">
+          <span class="track-num">POINT 02</span>
+          <h3>ジャンル横断の作曲</h3>
+          <p>ロック、R&B、シティポップ的な質感まで、1枚のアルバムの中でも大胆に振れ幅を見せる。</p>
+          <div class="swatch" style="background:var(--ember);"></div>
+        </div>
+        <div class="track-card">
+          <span class="track-num">POINT 03</span>
+          <h3>手描き感のあるビジュアル</h3>
+          <p>ジャケットやMVに漂う、フラットな色面と太い輪郭線のイラストレーション。</p>
+          <div class="swatch" style="background:var(--sky);"></div>
+        </div>
+        <div class="track-card">
+          <span class="track-num">POINT 04</span>
+          <h3>ライブでの一体感</h3>
+          <p>音源とは違うアレンジや掛け合いなど、現場ならではの空気感も語りどころ。</p>
+          <div class="swatch" style="background:var(--sky-deep);"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE LINKS -->
+  <section class="pages-band">
+    <div class="inner">
+      <div class="section-head">
+        <span class="tag">SITE MAP</span>
+        <h2>サイト内をめぐる</h2>
+      </div>
+      <div class="pages-grid">
+        <a class="page-card" href="blog.html">
+          <div class="icon" style="background:var(--sun);">日</div>
+          <h3>BLOG</h3>
+          <p>日々の推し活記録を、日付と一言メモでゆるく更新。</p>
+        </a>
+        <a class="page-card" href="gallery.html">
+          <div class="icon" style="background:var(--sky);">絵</div>
+          <h3>GALLERY</h3>
+          <p>ジャケ写風のファンアートや資料イメージをまとめて展示。</p>
+        </a>
+        <a class="page-card" href="about.html">
+          <div class="icon" style="background:var(--ember);">人</div>
+          <h3>ABOUT</h3>
+          <p>Vaundyのプロフィールと、このサイトについての説明。</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    SUNNY SIDE UP
+  </div>
+  <p class="disclaimer">
+    当サイトはVaundyさんを応援するファンが個人で運営する非公式サイトです。
+    本人・所属事務所・レーベルとは一切関係ありません。
+  </p>
+  <div class="sns" aria-label="関連リンク">
+    <a href="#" aria-label="X（Twitter）">X</a>
+    <a href="#" aria-label="Instagram">IG</a>
+    <a href="#" aria-label="YouTube">YT</a>
+  </div>
+</footer>
+
+</body>
+</html>
