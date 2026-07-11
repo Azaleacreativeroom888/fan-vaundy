@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABOUT — SUNNY SIDE UP | Vaundy 非公式ファンサイト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6E4;
+    --paper:#FFFCF4;
+    --sun:#FFB627;
+    --sun-deep:#FF8A1E;
+    --ember:#E8531F;
+    --sky:#6FC6E0;
+    --sky-deep:#2E8FA8;
+    --ink:#2B2118;
+    --ink-soft:#6B5C4C;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Noto Sans JP', sans-serif;
+    line-height:1.9;
+  }
+  h1,h2,h3,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+  a{color:inherit; text-decoration:none;}
+  button{ font-family:inherit; }
+
+  /* ---------- nav (shared) ---------- */
+  header{ position:sticky; top:0; z-index:50; background:var(--cream); border-bottom:2.5px solid var(--ink); }
+  .nav-wrap{ max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:900; font-size:1.3rem; letter-spacing:0.03em; }
+  .brand-mark{ width:32px; height:32px; border-radius:50%; background:conic-gradient(from 180deg, var(--sun), var(--ember), var(--sky), var(--sun)); box-shadow:0 0 0 2.5px var(--ink); flex-shrink:0; }
+  nav ul{ list-style:none; display:flex; gap:6px; }
+  nav a{ display:inline-block; padding:8px 16px; font-weight:700; font-size:0.92rem; border-radius:999px; transition:background 0.15s, color 0.15s, transform 0.15s; }
+  nav a:hover, nav a:focus-visible{ background:var(--ink); color:var(--paper); transform:translateY(-1px); }
+  nav a.current{ background:var(--sun); box-shadow:0 0 0 2px var(--ink); }
+  @media (max-width:760px){ nav ul{ gap:2px; } nav a{ padding:7px 11px; font-size:0.82rem; } }
+
+  /* ---------- page head ---------- */
+  .page-head{ padding:64px 24px 40px; text-align:center; position:relative; overflow:hidden; }
+  .page-head::before{
+    content:"";
+    position:absolute; top:-120px; left:50%; transform:translateX(-50%);
+    width:340px; height:340px; border-radius:50%;
+    background:radial-gradient(circle, var(--sun) 0%, var(--sun-deep) 55%, transparent 75%);
+    opacity:0.5; z-index:0;
+  }
+  .page-head .tag{ position:relative; z-index:1; font-weight:700; font-size:0.8rem; letter-spacing:0.24em; color:var(--sky-deep); }
+  .page-head h1{ position:relative; z-index:1; margin-top:10px; font-size:clamp(2.2rem,6vw,3.4rem); font-weight:900; }
+  .page-head p{ position:relative; z-index:1; margin-top:14px; color:var(--ink-soft); max-width:520px; margin-left:auto; margin-right:auto; font-size:0.95rem; }
+
+  /* ---------- section shell ---------- */
+  section{ padding:20px 24px 88px; }
+  .inner{ max-width:820px; margin:0 auto; }
+  .section-head{ margin-bottom:32px; display:flex; align-items:center; gap:12px; }
+  .section-head .tag{
+    font-weight:700; font-size:0.8rem; letter-spacing:0.2em; color:var(--sky-deep);
+    display:flex; align-items:center; gap:10px; white-space:nowrap;
+  }
+  .section-head .tag::before{ content:""; width:22px; height:3px; background:var(--sky); border-radius:2px; }
+  .section-head h2{ font-size:clamp(1.4rem, 3vw, 1.9rem); font-weight:900; }
+  .section-head::after{ content:""; flex:1; height:2px; background:var(--ink); opacity:0.1; }
+
+  /* ---------- intro ---------- */
+  .intro-card{
+    background:var(--paper);
+    border:2.5px solid var(--ink);
+    border-radius:20px;
+    padding:32px 34px;
+  }
+  .intro-card p{ color:var(--ink-soft); margin-bottom:14px; }
+  .intro-card p:last-child{ margin-bottom:0; }
+  .intro-card strong{ color:var(--ink); }
+  .admin-row{
+    display:flex; align-items:center; gap:16px;
+    margin-bottom:20px;
+    padding-bottom:20px;
+    border-bottom:2px dashed var(--ink);
+  }
+  .admin-avatar{
+    width:56px; height:56px; border-radius:50%; flex-shrink:0;
+    background:conic-gradient(from 40deg, var(--sun), var(--ember), var(--sky), var(--sun));
+    border:2.5px solid var(--ink);
+  }
+  .admin-name{ font-weight:900; font-size:1.05rem; }
+  .admin-role{ font-size:0.82rem; color:var(--sky-deep); font-weight:700; margin-top:2px; }
+
+  /* ---------- top5 ranking ---------- */
+  .rank-list{ display:flex; flex-direction:column; gap:14px; }
+  .rank-item{
+    display:flex; align-items:center; gap:20px;
+    background:var(--paper);
+    border:2.5px solid var(--ink);
+    border-radius:16px;
+    padding:16px 22px;
+    transition:transform 0.15s, box-shadow 0.15s;
+  }
+  .rank-item:hover{ transform:translateX(4px); box-shadow:5px 5px 0 var(--ink); }
+  .rank-num{
+    font-family:'Zen Maru Gothic', sans-serif;
+    font-weight:900;
+    font-size:1.6rem;
+    width:44px; height:44px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--paper);
+  }
+  .rank-1 .rank-num{ background:var(--ember); font-size:1.8rem; width:50px; height:50px; }
+  .rank-2 .rank-num{ background:var(--sun-deep); }
+  .rank-3 .rank-num{ background:var(--sky-deep); }
+  .rank-4 .rank-num{ background:var(--sky); color:var(--ink); }
+  .rank-5 .rank-num{ background:var(--ink); }
+  .rank-info{ flex:1; min-width:0; }
+  .rank-title{ font-weight:700; font-size:1.05rem; }
+  .rank-note{ font-size:0.84rem; color:var(--ink-soft); margin-top:4px; }
+
+  /* ---------- link grid ---------- */
+  .link-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+    gap:16px;
+  }
+  .link-card{
+    display:flex; align-items:center; gap:14px;
+    background:var(--paper);
+    border:2.5px solid var(--ink);
+    border-radius:14px;
+    padding:16px 18px;
+    transition:transform 0.15s, box-shadow 0.15s;
+  }
+  .link-card:hover{ transform:translateY(-4px); box-shadow:5px 5px 0 var(--ink); }
+  .link-icon{
+    width:42px; height:42px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:0.95rem; flex-shrink:0;
+    border:2px solid var(--ink);
+  }
+  .link-text{ flex:1; min-width:0; }
+  .link-name{ font-weight:700; font-size:0.95rem; }
+  .link-desc{ font-size:0.78rem; color:var(--ink-soft); margin-top:2px; }
+  .link-arrow{ color:var(--ink-soft); flex-shrink:0; }
+
+  /* ---------- contact form ---------- */
+  .form-card{
+    background:var(--paper);
+    border:2.5px solid var(--ink);
+    border-radius:20px;
+    padding:32px 34px;
+  }
+  .form-intro{ color:var(--ink-soft); font-size:0.92rem; margin-bottom:26px; }
+  .form-group{ margin-bottom:18px; }
+  .form-label{
+    display:block; font-weight:700; font-size:0.85rem;
+    margin-bottom:7px; letter-spacing:0.02em;
+  }
+  .form-label .required{ color:var(--ember); font-weight:700; }
+  .form-input, .form-textarea{
+    width:100%;
+    background:var(--cream);
+    border:2px solid var(--ink);
+    border-radius:10px;
+    padding:11px 14px;
+    font-family:inherit;
+    font-size:0.95rem;
+    color:var(--ink);
+    outline:none;
+    transition:box-shadow 0.15s, border-color 0.15s;
+  }
+  .form-input::placeholder, .form-textarea::placeholder{ color:#a8977f; }
+  .form-input:focus, .form-textarea:focus{ box-shadow:3px 3px 0 var(--sky-deep); border-color:var(--sky-deep); }
+  .form-textarea{ resize:vertical; min-height:130px; }
+  .field-error{ display:block; font-size:0.78rem; color:var(--ember); margin-top:6px; }
+  .form-submit{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--sun);
+    border:2.5px solid var(--ink);
+    border-radius:999px;
+    padding:12px 30px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:0.95rem;
+    color:var(--ink);
+    cursor:pointer;
+    margin-top:6px;
+    transition:transform 0.15s, box-shadow 0.15s;
+  }
+  .form-submit:hover{ transform:translate(-2px,-2px); box-shadow:4px 4px 0 var(--ink); }
+  .form-submit:disabled{ opacity:0.5; cursor:not-allowed; }
+  .form-success{
+    background:var(--sky); border:2.5px solid var(--ink); border-radius:14px;
+    padding:18px 20px; text-align:center; font-weight:700; margin-bottom:20px;
+  }
+  .form-error-global{
+    background:#FBDCCB; border:2.5px solid var(--ember); border-radius:14px;
+    padding:14px 18px; color:var(--ember); font-size:0.9rem; margin-bottom:18px;
+  }
+
+  /* ---------- disclaimer note ---------- */
+  .note-box{
+    background:var(--paper);
+    border:2px dashed var(--ink);
+    border-radius:14px;
+    padding:18px 22px;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    line-height:1.8;
+  }
+
+  /* ---------- footer (shared) ---------- */
+  footer{ padding:56px 24px 40px; text-align:center; border-top:2.5px solid var(--ink); background:var(--paper); }
+  footer .brand{ justify-content:center; margin-bottom:14px; }
+  footer .disclaimer{ max-width:480px; margin:0 auto; font-size:0.8rem; color:var(--ink-soft); line-height:1.8; }
+  footer .sns{ margin-top:22px; display:flex; justify-content:center; gap:14px; }
+  footer .sns a{ width:38px; height:38px; border-radius:50%; border:2.5px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700; transition:background 0.15s, color 0.15s; }
+  footer .sns a:hover{ background:var(--sky); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      SUNNY SIDE UP
+    </div>
+    <nav aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="blog.html">BLOG</a></li>
+        <li><a href="gallery.html">GALLERY</a></li>
+        <li><a href="about.html" class="current">ABOUT</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-head">
+    <span class="tag">ABOUT THIS SITE</span>
+    <h1>ABOUT</h1>
+    <p>Vaundyの音楽と、このサイトについての紹介ページです。</p>
+  </div>
+
+  <!-- 紹介文 -->
+  <section>
+    <div class="inner">
+      <div class="section-head">
+        <span class="tag">INTRODUCTION</span>
+        <h2>はじめに</h2>
+      </div>
+      <div class="intro-card">
+        <div class="admin-row">
+          <span class="admin-avatar" aria-hidden="true"></span>
+          <div>
+            <div class="admin-name">サイト管理人</div>
+            <div class="admin-role">一介のリスナー・ファン</div>
+          </div>
+        </div>
+        <p>
+          はじめまして。このサイト「<strong>SUNNY SIDE UP</strong>」は、Vaundyさんの音楽と創作活動が好きすぎて
+          個人で立ち上げたファンサイトです。公式のサイトやSNSではありませんので、
+          その点だけご了承いただけたら嬉しいです。
+        </p>
+        <p>
+          曲を聴いて感じたことや、日々の推し活の記録（BLOG）、聴きながら浮かんだイメージを
+          色で残したギャラリー（GALLERY）など、思いつくままに更新していく予定です。
+          同じくファンの方に少しでも「わかる」と思ってもらえたら嬉しいです。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 好きな曲TOP5 -->
+  <section>
+    <div class="inner">
+      <div class="section-head">
+        <span class="tag">MY FAVORITES</span>
+        <h2>個人的に好きな曲 TOP5</h2>
+      </div>
+      <div class="rank-list">
+
+        <div class="rank-item rank-1">
+          <span class="rank-num">1</span>
+          <div class="rank-info">
+            <div class="rank-title">怪獣の花唄</div>
+            <div class="rank-note">聴くたびに刺さる場所が変わる、Vaundyを知ったきっかけの一曲。</div>
+          </div>
+        </div>
+
+        <div class="rank-item rank-2">
+          <span class="rank-num">2</span>
+          <div class="rank-info">
+            <div class="rank-title">踊り子</div>
+            <div class="rank-note">サビに入る瞬間の高揚感が毎回気持ちいい。ライブで聴いたら泣きそう。</div>
+          </div>
+        </div>
+
+        <div class="rank-item rank-3">
+          <span class="rank-num">3</span>
+          <div class="rank-info">
+            <div class="rank-title">不可幸力</div>
+            <div class="rank-note">Aメロのラップ調から後半への展開が鮮やかで、何度聴いても飽きない。</div>
+          </div>
+        </div>
+
+        <div class="rank-item rank-4">
+          <span class="rank-num">4</span>
+          <div class="rank-info">
+            <div class="rank-title">裸の勇者</div>
+            <div class="rank-note">疾走感があって、落ち込んだ日に聴くと背中を押してもらえる曲。</div>
+          </div>
+        </div>
+
+        <div class="rank-item rank-5">
+          <span class="rank-num">5</span>
+          <div class="rank-info">
+            <div class="rank-title">東京フラッシュ</div>
+            <div class="rank-note">初期曲だけど今聴いても古びない、都会の空気感が漂うお気に入り。</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 関連リンク -->
+  <section>
+    <div class="inner">
+      <div class="section-head">
+        <span class="tag">WEBSITE</span>
+        <h2>関連リンク</h2>
+      </div>
+      <div class="link-grid">
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--sun);">公</span>
+          <span class="link-text">
+            <span class="link-name">Vaundy 公式サイト</span>
+            <span class="link-desc">ディスコグラフィー・ライブ情報</span>
+          </span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--sky);">🎵</span>
+          <span class="link-text">
+            <span class="link-name">Spotify</span>
+            <span class="link-desc">楽曲をストリーミングで聴く</span>
+          </span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--ember); color:var(--paper);">▶</span>
+          <span class="link-text">
+            <span class="link-name">YouTube</span>
+            <span class="link-desc">MVやライブ映像を見る</span>
+          </span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <span class="link-icon" style="background:var(--sky-deep); color:var(--paper);">X</span>
+          <span class="link-text">
+            <span class="link-name">X（Twitter）</span>
+            <span class="link-desc">最新情報をチェック</span>
+          </span>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+      <div style="height:16px;"></div>
+      <div class="note-box">
+        リンク先は公式アカウント・サービスへの参照用です。URLは仮の状態になっているので、
+        公開前に実際のリンクへ差し替えてください（<code>href="#"</code>の部分）。
+      </div>
+    </div>
+  </section>
+
+  <!-- お問い合わせフォーム -->
+  <section>
+    <div class="inner">
+      <div class="section-head">
+        <span class="tag">CONTACT</span>
+        <h2>お問い合わせ</h2>
+      </div>
+
+      <div class="form-card">
+        <p class="form-intro">
+          ご感想・ファン同士の交流のお誘いなど、お気軽にどうぞ。内容を確認のうえ返信いたします。
+        </p>
+
+        <div data-fs-success class="form-success" style="display:none;">
+          メッセージを送信しました。ありがとうございます！
+        </div>
+        <div data-fs-error class="form-error-global" style="display:none;"></div>
+
+        <form id="contact-form" action="https://formspree.io/f/maqvpvoz" method="POST">
+          <div class="form-group">
+            <label class="form-label" for="name">お名前</label>
+            <input class="form-input" type="text" id="name" name="name" placeholder="サニー" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">メールアドレス <span class="required">*</span></label>
+            <input class="form-input" type="email" id="email" name="email" data-fs-field placeholder="example@email.com" required>
+            <span data-fs-error="email" class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">メッセージ <span class="required">*</span></label>
+            <textarea class="form-textarea" id="message" name="message" data-fs-field placeholder="メッセージを入力してください…" rows="6" required></textarea>
+            <span data-fs-error="message" class="field-error"></span>
+          </div>
+
+          <button class="form-submit" type="submit" data-fs-submit-btn>送信する</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    SUNNY SIDE UP
+  </div>
+  <p class="disclaimer">
+    当サイトはVaundyさんを応援するファンが個人で運営する非公式サイトです。
+    本人・所属事務所・レーベルとは一切関係ありません。掲載イラストはすべて当サイト管理者によるオリジナル制作物です。
+  </p>
+  <div class="sns" aria-label="関連リンク">
+    <a href="#" aria-label="X（Twitter）">X</a>
+    <a href="#" aria-label="Instagram">IG</a>
+    <a href="#" aria-label="YouTube">YT</a>
+  </div>
+</footer>
+
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contact-form', formId: 'maqvpvoz' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</body>
+</html>
