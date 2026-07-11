@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GALLERY — SUNNY SIDE UP | Vaundy 非公式ファンサイト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6E4;
+    --paper:#FFFCF4;
+    --sun:#FFB627;
+    --sun-deep:#FF8A1E;
+    --ember:#E8531F;
+    --sky:#6FC6E0;
+    --sky-deep:#2E8FA8;
+    --ink:#2B2118;
+    --ink-soft:#6B5C4C;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Noto Sans JP', sans-serif;
+    line-height:1.9;
+  }
+  h1,h2,.brand{ font-family:'Zen Maru Gothic', sans-serif; }
+  a{color:inherit; text-decoration:none;}
+  button{ font-family:inherit; }
+
+  /* ---------- nav (shared) ---------- */
+  header{ position:sticky; top:0; z-index:50; background:var(--cream); border-bottom:2.5px solid var(--ink); }
+  .nav-wrap{ max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:900; font-size:1.3rem; letter-spacing:0.03em; }
+  .brand-mark{ width:32px; height:32px; border-radius:50%; background:conic-gradient(from 180deg, var(--sun), var(--ember), var(--sky), var(--sun)); box-shadow:0 0 0 2.5px var(--ink); flex-shrink:0; }
+  nav ul{ list-style:none; display:flex; gap:6px; }
+  nav a{ display:inline-block; padding:8px 16px; font-weight:700; font-size:0.92rem; border-radius:999px; transition:background 0.15s, color 0.15s, transform 0.15s; }
+  nav a:hover, nav a:focus-visible{ background:var(--ink); color:var(--paper); transform:translateY(-1px); }
+  nav a.current{ background:var(--sun); box-shadow:0 0 0 2px var(--ink); }
+  @media (max-width:760px){ nav ul{ gap:2px; } nav a{ padding:7px 11px; font-size:0.82rem; } }
+
+  /* ---------- page head ---------- */
+  .page-head{ padding:64px 24px 40px; text-align:center; position:relative; overflow:hidden; }
+  .page-head::before{
+    content:"";
+    position:absolute; top:-120px; left:50%; transform:translateX(-50%);
+    width:340px; height:340px; border-radius:50%;
+    background:radial-gradient(circle, var(--sky) 0%, var(--sky-deep) 55%, transparent 75%);
+    opacity:0.4; z-index:0;
+  }
+  .page-head .tag{ position:relative; z-index:1; font-weight:700; font-size:0.8rem; letter-spacing:0.24em; color:var(--sky-deep); }
+  .page-head h1{ position:relative; z-index:1; margin-top:10px; font-size:clamp(2.2rem,6vw,3.4rem); font-weight:900; }
+  .page-head p{ position:relative; z-index:1; margin-top:14px; color:var(--ink-soft); max-width:480px; margin-left:auto; margin-right:auto; font-size:0.95rem; }
+
+  /* ---------- filter chips ---------- */
+  .filters{
+    display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+    padding:0 24px 40px;
+  }
+  .chip{
+    padding:8px 18px;
+    border:2.5px solid var(--ink);
+    border-radius:999px;
+    font-weight:700;
+    font-size:0.85rem;
+    background:var(--paper);
+    cursor:pointer;
+    transition:background 0.15s, transform 0.15s;
+  }
+  .chip:hover{ transform:translateY(-2px); }
+  .chip.active{ background:var(--sun); }
+
+  /* ---------- gallery grid ---------- */
+  .gallery-grid{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 24px 120px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:22px;
+  }
+  .tile{
+    border:2.5px solid var(--ink);
+    border-radius:16px;
+    overflow:hidden;
+    background:var(--paper);
+    cursor:pointer;
+    transition:transform 0.15s, box-shadow 0.15s;
+    text-align:left;
+    display:block;
+    width:100%;
+  }
+  .tile:hover, .tile:focus-visible{ transform:translateY(-5px); box-shadow:6px 6px 0 var(--ink); }
+  .tile-art{
+    aspect-ratio:4/3;
+    position:relative;
+  }
+  .tile-info{ padding:14px 16px 16px; }
+  .tile-info .cap-date{
+    font-size:0.72rem; font-weight:700; letter-spacing:0.08em; color:var(--sky-deep);
+  }
+  .tile-info h3{ font-size:0.98rem; margin-top:4px; font-weight:700; }
+
+  /* ---------- lightbox ---------- */
+  .lightbox{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(43,33,24,0.88);
+    display:none;
+    align-items:center; justify-content:center;
+    padding:32px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox-panel{
+    background:var(--paper);
+    border:3px solid var(--ink);
+    border-radius:20px;
+    max-width:640px; width:100%;
+    overflow:hidden;
+    position:relative;
+  }
+  .lightbox-art{ aspect-ratio:4/3; }
+  .lightbox-body{ padding:24px 28px 28px; }
+  .lightbox-body .cap-date{ font-size:0.78rem; font-weight:700; color:var(--sky-deep); letter-spacing:0.08em; }
+  .lightbox-body h3{ font-size:1.3rem; margin-top:6px; }
+  .lightbox-body p{ margin-top:10px; color:var(--ink-soft); font-size:0.92rem; }
+  .lightbox-close{
+    position:absolute; top:14px; right:14px;
+    width:36px; height:36px;
+    border-radius:50%;
+    border:2.5px solid var(--ink);
+    background:var(--sun);
+    font-weight:900;
+    font-size:1rem;
+    cursor:pointer;
+    line-height:1;
+  }
+  .lightbox-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:42px; height:42px; border-radius:50%;
+    border:2.5px solid var(--ink);
+    background:var(--paper);
+    font-weight:900;
+    cursor:pointer;
+  }
+  .lightbox-prev{ left:-58px; }
+  .lightbox-next{ right:-58px; }
+  @media (max-width:720px){
+    .lightbox-prev{ left:8px; }
+    .lightbox-next{ right:8px; }
+    .lightbox-nav{ background:var(--paper); }
+  }
+
+  /* ---------- footer (shared) ---------- */
+  footer{ padding:56px 24px 40px; text-align:center; border-top:2.5px solid var(--ink); background:var(--paper); }
+  footer .brand{ justify-content:center; margin-bottom:14px; }
+  footer .disclaimer{ max-width:480px; margin:0 auto; font-size:0.8rem; color:var(--ink-soft); line-height:1.8; }
+  footer .sns{ margin-top:22px; display:flex; justify-content:center; gap:14px; }
+  footer .sns a{ width:38px; height:38px; border-radius:50%; border:2.5px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700; transition:background 0.15s, color 0.15s; }
+  footer .sns a:hover{ background:var(--sky); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      SUNNY SIDE UP
+    </div>
+    <nav aria-label="サイト内ナビゲーション">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="blog.html">BLOG</a></li>
+        <li><a href="gallery.html" class="current">GALLERY</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-head">
+    <span class="tag">FAN ART & MOOD</span>
+    <h1>GALLERY</h1>
+    <p>ファンアートや、楽曲から受けたイメージを色面で残した記録です。</p>
+  </div>
+
+  <div class="filters" role="tablist" aria-label="ギャラリーの絞り込み">
+    <button class="chip active" data-filter="all">ALL</button>
+    <button class="chip" data-filter="fanart">FAN ART</button>
+    <button class="chip" data-filter="mood">MOOD BOARD</button>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+    <!-- tiles injected by JS from the DATA array below -->
+  </div>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="拡大表示">
+  <div class="lightbox-panel">
+    <button class="lightbox-close" id="lbClose" aria-label="閉じる">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="前へ">←</button>
+    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="次へ">→</button>
+    <div class="lightbox-art" id="lbArt"></div>
+    <div class="lightbox-body">
+      <div class="cap-date" id="lbDate"></div>
+      <h3 id="lbTitle"></h3>
+      <p id="lbDesc"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    SUNNY SIDE UP
+  </div>
+  <p class="disclaimer">
+    当サイトはVaundyさんを応援するファンが個人で運営する非公式サイトです。
+    本人・所属事務所・レーベルとは一切関係ありません。掲載イラストはすべて当サイト管理者によるオリジナル制作物です。
+  </p>
+  <div class="sns" aria-label="関連リンク">
+    <a href="#" aria-label="X（Twitter）">X</a>
+    <a href="#" aria-label="Instagram">IG</a>
+    <a href="#" aria-label="YouTube">YT</a>
+  </div>
+</footer>
+
+<script>
+  const DATA = [
+    { cat:'fanart', date:'2026.07.05', title:'ステージの余韻', desc:'ライブ後の高揚感をイメージした一枚。暖色でまとめた色面構成の練習を兼ねて。', a:'#FFB627', b:'#E8531F' },
+    { cat:'mood',   date:'2026.06.28', title:'夜明け前のシティポップ', desc:'アルバム後半の落ち着いたトラックから受けた、藍から朝焼けへのグラデーションイメージ。', a:'#2E8FA8', b:'#6FC6E0' },
+    { cat:'fanart', date:'2026.06.14', title:'マイクとシルエット', desc:'太い輪郭線とフラットな色面で、ジャケットアートの雰囲気を研究しながら描いたラフ。', a:'#FF8A1E', b:'#2B2118' },
+    { cat:'mood',   date:'2026.05.30', title:'夏曲のパレット', desc:'夏に発表された楽曲を聴いて浮かんだ色の組み合わせをそのままボードに。', a:'#6FC6E0', b:'#FFB627' },
+    { cat:'fanart', date:'2026.05.12', title:'レコードジャケット案', desc:'もし自分がジャケットをデザインするなら、という妄想スケッチ。', a:'#E8531F', b:'#6FC6E0' },
+    { cat:'mood',   date:'2026.04.22', title:'春ツアーの記憶', desc:'会場の照明の色を思い出しながら作った抽象的なカラースタディ。', a:'#FFB627', b:'#2E8FA8' },
+  ];
+
+  const grid = document.getElementById('galleryGrid');
+
+  function artStyle(item){
+    return `background:linear-gradient(135deg, ${item.a} 0%, ${item.a} 45%, ${item.b} 100%);
+            position:relative;`;
+  }
+
+  function renderTiles(filter){
+    grid.innerHTML = '';
+    DATA.forEach((item, i) => {
+      if(filter !== 'all' && item.cat !== filter) return;
+      const tile = document.createElement('button');
+      tile.className = 'tile';
+      tile.dataset.index = i;
+      tile.innerHTML = `
+        <span class="tile-art" style="${artStyle(item)}"></span>
+        <span class="tile-info">
+          <span class="cap-date">${item.date}</span>
+          <h3>${item.title}</h3>
+        </span>
+      `;
+      tile.addEventListener('click', () => openLightbox(i));
+      grid.appendChild(tile);
+    });
+  }
+
+  renderTiles('all');
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      renderTiles(chip.dataset.filter);
+    });
+  });
+
+  // ---------- lightbox ----------
+  const lightbox = document.getElementById('lightbox');
+  const lbArt = document.getElementById('lbArt');
+  const lbDate = document.getElementById('lbDate');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbDesc = document.getElementById('lbDesc');
+  let currentIndex = 0;
+
+  function openLightbox(index){
+    currentIndex = index;
+    const item = DATA[index];
+    lbArt.style.cssText = artStyle(item);
+    lbDate.textContent = item.date;
+    lbTitle.textContent = item.title;
+    lbDesc.textContent = item.desc;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function showRelative(delta){
+    currentIndex = (currentIndex + delta + DATA.length) % DATA.length;
+    openLightbox(currentIndex);
+  }
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', () => showRelative(-1));
+  document.getElementById('lbNext').addEventListener('click', () => showRelative(1));
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLightbox();
+    if(e.key === 'ArrowLeft') showRelative(-1);
+    if(e.key === 'ArrowRight') showRelative(1);
+  });
+</script>
+
+</body>
+</html>
